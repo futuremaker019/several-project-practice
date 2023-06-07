@@ -1,0 +1,53 @@
+debug: false  # ??? ?? ???, logback?? ???
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+logging:
+  level:
+    com.board.boardpractice: debug
+    org.springframework.web.servlet: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3366/board
+    username: root
+    password: root
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create
+    open-in-view: false
+    show-sql: true  # sql ? ???
+    properties:
+      hibernate:
+        format_sql: true  # sql formatting? ??
+        default_batch_fetch_size: 100   # n+1 ?? ??? ???? (??? select ?? ?? ?????.)
+    database: mysql
+    database-platform: org.hibernate.dialect.MariaDB103Dialect
+  h2.console.enable: false
+  sql.init.mode: always   # ??? ???? ?? ?? ?? ??
+#  thymeleaf.cache: false
+#  data:
+#    rest:
+#      base-path: /api
+#      detection-strategy: annotated
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: testdb    # ?? profile ? on-profile ? ???
+  datasource:
+    url: jdbc:h2:mem:board;mode=mysql
+    driver-class-name: org.h2.Driver
+  sql:
+    init:
+      mode: always
+  test.database.replace: none
