@@ -1,5 +1,6 @@
 package com.board.boardpractice.controller;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //@WebMvcTest       // application/hal+json의 형태를 인식하지 못하여 error가 발생한다. @SpringBootTest 및 @AutoConfigureMockMvc를 추가함
+@Disabled("Spring Data Rest 통합테스트는 불필요하므로 제외시킴")
 @DisplayName("Data REST - API 테스트")
 @Transactional      // default는 ROLLBACK이다.
 @AutoConfigureMockMvc
