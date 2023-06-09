@@ -14,6 +14,7 @@ spring:
     username: root
     password: root
     driver-class-name: org.mariadb.jdbc.Driver
+# 테스트시 아래 h2 디비로 변경하여 사용하면 된다.
 #    url: jdbc:h2:mem:testdb
 #    username: sa
 #    driver-class-name: org.h2.Driver
@@ -31,11 +32,12 @@ spring:
 #    database-platform: org.hibernate.dialect.MariaDB103Dialect
   h2.console.enable: false
   sql.init.mode: always                 # 서버 기동시 가데이터 insert 시키는 설정
+  data:
+    rest:
+      base-path: /api
+      detection-strategy: annotated
+
 #  thymeleaf.cache: false
-#  data:
-#    rest:
-#      base-path: /api
-#      detection-strategy: annotated
 
 ---
 
