@@ -1,5 +1,6 @@
 package com.board.boardpractice.controller;
 
+import com.board.boardpractice.domain.Article;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +22,9 @@ public class ArticleController {
 
     @GetMapping("/{articleId}")
     public String articles(@PathVariable Long articleId, ModelMap map) {
-        map.addAttribute("article", null);
-        map.addAttribute("articleComment", List.of());
+        // TODO : 구현시 실제 데이터 필요
+        map.addAttribute("article", "article");
+        map.addAttribute("articleComments", List.of());
 
         return "articles/detail";
     }
