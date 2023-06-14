@@ -47,6 +47,7 @@ public class Article extends AuditingFields {
     }
 
     // 팩토리 메서드 패턴을 이용하여 생성자 생성
+    // 필요한 필드만 초기화 할 수 있도록 만듬
     public static Article of(String title, String content, String hashtag) {
         return new Article(title, content, hashtag);
     }
