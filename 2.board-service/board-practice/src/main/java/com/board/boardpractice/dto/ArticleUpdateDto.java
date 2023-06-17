@@ -1,8 +1,5 @@
 package com.board.boardpractice.dto;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 public record ArticleUpdateDto(
         String title,
         String content,
