@@ -1,6 +1,5 @@
-package com.board.boardpractice.dto;
+package com.board.boardpractice.domain;
 
-import com.board.boardpractice.domain.AuditingFields;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
