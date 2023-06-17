@@ -201,3 +201,10 @@ insert into article_comment (article_id, content, created_by, modified_by, creat
 ,(68, 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.', 'Arabella', 'Culver', '2022-11-26 22:58:46', '2023-05-28 00:18:10')
 ,(18, 'Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.', 'Leonerd', 'Nikolaos', '2023-04-21 00:41:51', '2022-10-23 04:30:36')
 ,(9, 'Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae Duis faucibus accumsan odio. Curabitur convallis.', 'Ritchie', 'Berke', '2022-08-11 02:54:27', '2022-12-11 08:15:28');
+
+
+-- 테스트 계정
+-- TODO: 테스트용이지만 비밀번호가 노출된 데이터 세팅. 개선하는 것이 좋을 지 고민해 보자.
+insert into user_account (user_id, user_password, nickname, email, memo, created_at, created_by, modified_at, modified_by) values
+    ('uno', 'asdf1234', 'Uno', 'uno@mail.com', 'I am Uno.', now(), 'uno', now(), 'uno')
+;
