@@ -2,9 +2,11 @@ package com.board.boardpractice.service;
 
 import com.board.boardpractice.domain.Article;
 import com.board.boardpractice.domain.ArticleComment;
+import com.board.boardpractice.domain.UserAccount;
 import com.board.boardpractice.dto.ArticleCommentDto;
 import com.board.boardpractice.repository.ArticleCommentRepository;
 import com.board.boardpractice.repository.ArticleRepository;
+import com.board.boardpractice.repository.UserAccountRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,6 +31,7 @@ class ArticleCommentServiceTest {
 
     @Mock private ArticleRepository articleRepository;
     @Mock private ArticleCommentRepository articleCommentRepository;
+    @Mock private UserAccountRepository userAccountRepository;
 
 
     @DisplayName("댓글 id를 조회하면, 해당하는 댓글 리스트를 반환한다.")
@@ -36,7 +39,8 @@ class ArticleCommentServiceTest {
     public void givenArticleId_whenSearchComments_thenReturnsArticleComments() {
         // given
         Long articleId = 1L;
-        Optional<Article> article = Optional.of(Article.of("title", "content", "#java"));
+        UserAccount userAccount = userAccountRepository.save(UserAccount.of("jung", "1122", null, null, null));
+        Optional<Article> article = Optional.of(Article.of(userAccount,"title", "content", "#java"));
         given(articleRepository.findById(articleId)).willReturn(article);
 
         // when
