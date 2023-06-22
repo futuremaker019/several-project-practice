@@ -3,6 +3,7 @@ package com.board.boardpractice.controller;
 import com.board.boardpractice.config.SecurityConfig;
 import com.board.boardpractice.dto.ArticleWithCommentsDto;
 import com.board.boardpractice.dto.UserAccountDto;
+import com.board.boardpractice.repository.ArticleRepository;
 import com.board.boardpractice.service.ArticleService;
 import com.board.boardpractice.service.PaginationService;
 import org.junit.jupiter.api.Disabled;
@@ -102,16 +103,20 @@ class ArticleControllerTest {
     @Test
     void givenNothing_whenRequestingArticleView_thenReturnArticleView() throws Exception {
         Long articleId = 1L;
+        long totalCount = 1L;
         given(articleService.getArticle(articleId)).willReturn(createArticleWithCommentDto());
+        given(articleService.getArticleCount()).willReturn(totalCount);
 
         mvc.perform(get("/articles/" + articleId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("articles/detail"))
                 .andExpect(model().attributeExists("article"))
-                .andExpect(model().attributeExists("articleComments"));
+                .andExpect(model().attributeExists("articleComments"))
+                .andExpect(model().attribute("totalCount", totalCount));
 
         then(articleService).should().getArticle(articleId);
+        then(articleService).should().getArticleCount();
     }
 
     @Disabled("구현중")
