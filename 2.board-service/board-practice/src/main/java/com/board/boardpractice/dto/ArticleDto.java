@@ -1,6 +1,8 @@
 package com.board.boardpractice.dto;
 
 import com.board.boardpractice.domain.Article;
+import com.board.boardpractice.domain.UserAccount;
+import org.apache.catalina.User;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -35,9 +37,13 @@ public record ArticleDto(
         );
     }
 
-    public Article toEntity() {
+    public static ArticleDto of(UserAccountDto userAccountDto, String title, String content, String hashtag) {
+        return new ArticleDto(null, userAccountDto, title, content, hashtag, null, null, null, null);
+    }
+
+    public Article toEntity(UserAccount userAccount) {
         return Article.of(
-                userAccountDto.toEntity(),
+                userAccount,
                 title,
                 content,
                 hashtag
