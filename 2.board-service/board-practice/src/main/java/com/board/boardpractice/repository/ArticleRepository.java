@@ -2,6 +2,7 @@ package com.board.boardpractice.repository;
 
 import com.board.boardpractice.domain.Article;
 import com.board.boardpractice.domain.QArticle;
+import com.board.boardpractice.repository.querydsl.ArticleRepositoryCustom;
 import com.querydsl.core.types.dsl.DateTimeExpression;
 import com.querydsl.core.types.dsl.StringExpression;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource
 public interface ArticleRepository extends
         JpaRepository<Article, Long>,
+        ArticleRepositoryCustom,
         QuerydslPredicateExecutor<Article>,
         QuerydslBinderCustomizer<QArticle> {
 
@@ -38,4 +40,5 @@ public interface ArticleRepository extends
         bindings.bind(root.createdAt).first(DateTimeExpression::eq);
         bindings.bind(root.createdBy).first(StringExpression::containsIgnoreCase);
     }
+
 }
