@@ -1,5 +1,7 @@
 package com.board.boardpractice.domain;
 
+import com.board.boardpractice.dto.ArticleDto;
+import com.board.boardpractice.dto.UserAccountDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -26,6 +28,7 @@ public class Article extends AuditingFields {
 
     @Setter
     @ManyToOne(optional = false)
+    @JoinColumn(name = "userId")
     private UserAccount userAccount;
 
     @Setter
