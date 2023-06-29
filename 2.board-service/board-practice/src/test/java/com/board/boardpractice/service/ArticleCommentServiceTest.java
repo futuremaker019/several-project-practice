@@ -30,10 +30,12 @@ class ArticleCommentServiceTest {
     @InjectMocks
     private ArticleCommentService sut;
 
-    @Mock private ArticleRepository articleRepository;
-    @Mock private ArticleCommentRepository articleCommentRepository;
-    @Mock private UserAccountRepository userAccountRepository;
-
+    @Mock
+    private ArticleRepository articleRepository;
+    @Mock
+    private ArticleCommentRepository articleCommentRepository;
+    @Mock
+    private UserAccountRepository userAccountRepository;
 
     @DisplayName("댓글 id를 조회하면, 해당하는 댓글 리스트를 반환한다.")
     @Test
@@ -59,12 +61,15 @@ class ArticleCommentServiceTest {
         // given
         ArticleCommentDto dto = createArticleCommentDto("댓글");
         given(articleRepository.getReferenceById(dto.articleId())).willReturn(createArticle());
+        given(userAccountRepository.getReferenceById(dto.userAccountDto().userId())).willReturn(createUserAccount());
+        given(articleCommentRepository.save(any(ArticleComment.class))).willReturn(null);
 
         // when
         sut.saveArticleComment(dto);
 
         // then
         then(articleRepository).should().getReferenceById(dto.articleId());
+        then(userAccountRepository).should().getReferenceById(dto.userAccountDto().userId());
         then(articleCommentRepository).should().save(any(ArticleComment.class));
     }
 
@@ -80,6 +85,7 @@ class ArticleCommentServiceTest {
 
         // Then
         then(articleRepository).should().getReferenceById(dto.articleId());
+        then(userAccountRepository).shouldHaveNoInteractions();
         then(articleCommentRepository).shouldHaveNoInteractions();
     }
 
