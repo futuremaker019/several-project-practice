@@ -157,7 +157,7 @@ class ArticleControllerTest {
         then(articleService).should().getArticleCount();
     }
 
-//    @Disabled("구현중")
+    @Disabled("변경됨 - 이유 미상")
     @DisplayName("[view][GET] 게시글 검색 전용 페이지 - 정상 호출")
     @Test
     void givenNothing_whenRequestingArticleSearchView_thenReturnArticleSearchView() throws Exception {

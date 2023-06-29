@@ -160,11 +160,10 @@ class ArticleServiceTest {
         given(articleRepository.findById(articleId)).willReturn(Optional.empty());
 
         // When
-        ArticleWithCommentsDto article = sut.getArticleWithComments(1L);
+//        ArticleWithCommentsDto article = sut.getArticleWithComments(articleId);
         Throwable t = catchThrowable(() -> sut.getArticle(articleId));
 
         // Then
-        assertThat(article).isNotNull();
         assertThat(t)
                 .isInstanceOf(EntityNotFoundException.class)
                 .hasMessage("게시글이 없습니다 - articleId: " + articleId);
