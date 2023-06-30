@@ -47,6 +47,6 @@ public class ArticleCommentService {
     }
 
     public void deleteArticleComment(Long articleCommentId) {
-
+        articleCommentRepository.deleteById(articleCommentId);
     }
 }

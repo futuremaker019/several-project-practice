@@ -1,7 +1,9 @@
 package com.board.boardpractice.controller;
 
 import com.board.boardpractice.config.SecurityConfig;
+import com.board.boardpractice.dto.ArticleCommentDto;
 import com.board.boardpractice.dto.ArticleDto;
+import com.board.boardpractice.dto.request.ArticleCommentRequest;
 import com.board.boardpractice.dto.request.ArticleRequest;
 import com.board.boardpractice.service.ArticleCommentService;
 import com.board.boardpractice.util.FormDataEncoder;
@@ -15,6 +17,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.then;
@@ -25,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @DisplayName("View 컨트롤러 - 댓글")
 @Import({SecurityConfig.class, FormDataEncoder.class})
-@WebMvcTest
+@WebMvcTest(ArticleCommentController.class)
 class ArticleCommentControllerTest {
 
     private final MockMvc mvc;
@@ -41,44 +45,45 @@ class ArticleCommentControllerTest {
         this.formDataEncoder = formDataEncoder;
     }
 
-    @Disabled
     @DisplayName("[view][POST] 새 게시글 등록 - 정상 호출")
     @Test
-    void givenNewArticleInfo_whenRequesting_thenSavesNewArticle() throws Exception {
-        // Given
-        ArticleRequest articleRequest = ArticleRequest.of("new title", "new content", "#new");
-//        willDoNothing().given(articleCommentService).saveArticleComment(any(ArticleDto.class));
-
-        // When & Then
-        mvc.perform(
-                post("/articles/form")
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .content(formDataEncoder.encode(articleRequest))
-                        .with(csrf())
-        )
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/articles"))   // 댓글을 작성하고 작성된 게시글로 redirection
-                .andExpect(redirectedUrl("/articles"));
-//        then(articleCommentService).should().saveArticleComment(any(ArticleDto.class));
-    }
-
-    @Disabled
-    @DisplayName("[view][POST] 게시글 삭제 - 정상 호출")
-    @Test
-    void givenArticleIdToDelete_whenRequesting_thenDeletesArticle() throws Exception {
+    void givenArticleCommentInfo_whenRequesting_thenSavesNewArticleComment() throws Exception {
         // Given
         long articleId = 1L;
-//        willDoNothing().given(articleService).deleteArticle(articleId);
+        ArticleCommentRequest request = ArticleCommentRequest.of(articleId, "test comment");
+        willDoNothing().given(articleCommentService).saveArticleComment(any(ArticleCommentDto.class));
 
         // When & Then
         mvc.perform(
-                        post("/articles/" + articleId + "/delete")
+                        post("/comments/new")
                                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .content(formDataEncoder.encode(request))
                                 .with(csrf())
                 )
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/articles"))
-                .andExpect(redirectedUrl("/articles"));
-//        then(articleService).should().deleteArticle(articleId);
+                .andExpect(view().name("redirect:/articles/" + articleId))
+                .andExpect(redirectedUrl("/articles/" + articleId));
+        then(articleCommentService).should().saveArticleComment(any(ArticleCommentDto.class));
+    }
+
+    @DisplayName("[view][POST] 게시글 삭제 - 정상 호출")
+    @Test
+    void givenArticleCommentIdToDelete_whenRequesting_thenDeletesArticleComment() throws Exception {
+        // Given
+        long articleId = 1L;
+        long articleCommentId = 1L;
+        willDoNothing().given(articleCommentService).deleteArticleComment(articleCommentId);
+
+        // When & Then
+        mvc.perform(
+                        post("/comments/" + articleCommentId + "/delete")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .content(formDataEncoder.encode(Map.of("articleId", articleId)))
+                                .with(csrf())
+                )
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/articles/" + articleId))
+                .andExpect(redirectedUrl("/articles/" + articleId));
+        then(articleCommentService).should().deleteArticleComment(articleCommentId);
     }
 }
