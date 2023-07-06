@@ -25,7 +25,7 @@ public class TestSecurityConfig {
         given(userAccountRepository.findById(anyString())).willReturn(
                 Optional.of(
                         UserAccount.of(
-                                "jung",
+                                "noah00o",
                                 "ppww",
                                 "jung@gmail.com",
                                 "test",
