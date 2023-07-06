@@ -7,6 +7,7 @@ import com.board.boardpractice.dto.ArticleDto;
 import com.board.boardpractice.dto.ArticleWithCommentsDto;
 import com.board.boardpractice.dto.UserAccountDto;
 import com.board.boardpractice.repository.ArticleRepository;
+import com.board.boardpractice.repository.UserAccountRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,6 +35,8 @@ class ArticleServiceTest {
     private ArticleService sut;     // 테스트될 필드를 명시할떄 sut를 사용한다.
     @Mock
     private ArticleRepository articleRepository;
+    @Mock
+    private UserAccountRepository userAccountRepository;
 
     @DisplayName("검색어 없이 게시글을 검색하면, 게시글 페이지를 반환한다.")
     @Test
@@ -190,6 +193,7 @@ class ArticleServiceTest {
         Article article = createArticle();
         ArticleDto dto = createArticleDto("새 타이틀", "새 내용", "#springboot");
         given(articleRepository.getReferenceById(dto.id())).willReturn(article);
+        given(userAccountRepository.getReferenceById(dto.userAccountDto().userId())).willReturn(dto.userAccountDto().toEntity());
 
         // when
         sut.updateArticle(dto.id(), dto);
@@ -200,6 +204,7 @@ class ArticleServiceTest {
                 .hasFieldOrPropertyWithValue("content", dto.content())
                 .hasFieldOrPropertyWithValue("hashtag", dto.hashtag());
         then(articleRepository).should().getReferenceById(dto.id());
+        then(userAccountRepository).should().getReferenceById(dto.userAccountDto().userId());
     }
 
     @DisplayName("없는 게시글의 수정 정보를 입력하면, 경고 로그를 찍고 아무 것도 하지 않는다.")
@@ -222,10 +227,11 @@ class ArticleServiceTest {
     public void givenArticleId_whenDeletingArticle_thenDeletesArticle() {
         // given
         Long articleId = 1L;
+        String userId = "noah00o";
         willDoNothing().given(articleRepository).deleteById(articleId);
 
         // when
-        sut.deleteArticle(1L);
+        sut.deleteArticle(1L, userId);
 
         // then
         then(articleRepository).should().deleteById(articleId);
