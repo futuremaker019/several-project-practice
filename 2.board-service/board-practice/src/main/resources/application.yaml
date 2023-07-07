@@ -1,10 +1,6 @@
-debug: false  # ??? ?? ???, logback?? ???
+debug: false      # 로그 설정, logback을 사용시 logback으로 보여짐
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+management.endpoints.web.exposure.include: "*"
 
 logging:
   level:
@@ -18,25 +14,33 @@ spring:
     username: root
     password: root
     driver-class-name: org.mariadb.jdbc.Driver
+# 테스트시 아래 h2 디비로 변경하여 사용하면 된다.
+#    url: jdbc:h2:mem:testdb
+#    username: sa
+#    driver-class-name: org.h2.Driver
   jpa:
     defer-datasource-initialization: true
     hibernate:
       ddl-auto: create
     open-in-view: false
-    show-sql: true  # sql ? ???
+    show-sql: true                      # sql 을 표시함
     properties:
       hibernate:
-        format_sql: true  # sql formatting? ??
-        default_batch_fetch_size: 100   # n+1 ?? ??? ???? (??? select ?? ?? ?????.)
-    database: mysql
-    database-platform: org.hibernate.dialect.MariaDB103Dialect
+        format_sql: true                # sql formatting 해줌
+        default_batch_fetch_size: 100   # n+1 문제때문에 추가된 설정
+#    database: mysql
+#    database-platform: org.hibernate.dialect.MariaDB103Dialect
   h2.console.enable: false
-  sql.init.mode: always   # ??? ???? ?? ?? ?? ??
+  sql.init.mode: always                 # 서버 기동시 가데이터 insert 시키는 설정
+  data:
+    rest:
+      base-path: /api
+      detection-strategy: annotated
+  thymeleaf3:
+    decoupled-logic: true
 #  thymeleaf.cache: false
-#  data:
-#    rest:
-#      base-path: /api
-#      detection-strategy: annotated
+
+
 
 ---
 
