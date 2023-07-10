@@ -228,13 +228,13 @@ class ArticleServiceTest {
         // given
         Long articleId = 1L;
         String userId = "noah00o";
-        willDoNothing().given(articleRepository).deleteById(articleId);
+        willDoNothing().given(articleRepository).deleteByIdAndUserAccount_UserId(articleId, userId);
 
         // when
         sut.deleteArticle(1L, userId);
 
         // then
-        then(articleRepository).should().deleteById(articleId);
+        then(articleRepository).should().deleteByIdAndUserAccount_UserId(articleId, userId);
     }
 
     @DisplayName("게시글 수를 조회하면, 게시글 수를 반환한다")
